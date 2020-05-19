@@ -9,3 +9,5 @@ W tle będzie lecieć muzyka oraz z każdym strzałem będzie dźwiek tego wystr
 Opis potworków:
 -najłatwiejsze potworki, które będą w pierwszej fali będą łatwe do zabicia, ale będą dość szybko się poruszać
 -jeden z potworków na początku będzie wolny, jak się go zabije, to rozdzieli się na dwie części i przyspieszy
+
+![makieta](binding_of_rhen_makieta.png)
