@@ -12,7 +12,9 @@ CONFIG(debug, debug|release){
 
 SOURCES += \
         main.cpp \
+        objects.cpp \
         stage.cpp
 
 HEADERS += \
+    objects.h \
     stage.h
