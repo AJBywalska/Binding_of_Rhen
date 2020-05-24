@@ -13,8 +13,10 @@ CONFIG(debug, debug|release){
 SOURCES += \
         animation.cpp \
         main.cpp \
+    monsters.cpp \
         player.cpp \
 
 HEADERS += \
     animation.h \
+    monsters.h \
     player.h \

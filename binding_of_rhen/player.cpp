@@ -14,43 +14,39 @@ player::player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 
 void player::Update(float deltaTime)
 {
-    sf::Vector2i source(0, 1);
+     int source = Down;
     sf::Vector2f movement(0.0f, 0.0f);
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-        source.x = 1;
-        source.y = Up;
+        source = Up;
         movement.y -= speed*deltaTime;
         speed=90;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-        source.x = 1;
-        source.y = Down;
+        source = Down;
         movement.y += speed*deltaTime;
         speed=90;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-        source.x = 1;
-        source.y = Left;
+        source = Left;
         movement.x -= speed*deltaTime;
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-        source.x = 1;
-        source.y = Right;
+        source = Right;
         movement.x += speed*deltaTime;
     }
 
-    if(source.y==Down){
+    if(source == Down){
         if(movement.y == 0)
             row=0;
         else
             row=1;
     }
-    if(source.y==Right)
+    if(source == Right)
         row=3;
-    if(source.y==Left)
+    if(source == Left)
         row=4;
-    if(source.y==Up)
+    if(source == Up)
         row=5;
 
     anime.Update(row, deltaTime, faceRight);
