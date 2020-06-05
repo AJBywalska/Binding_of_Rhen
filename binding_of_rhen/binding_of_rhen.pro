@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++17
+CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 INCLUDEPATH += "C:/SFML-2.5.1/include"
@@ -11,12 +11,18 @@ CONFIG(debug, debug|release){
 }
 
 SOURCES += \
-        animation.cpp \
+        button.cpp \
+        entity.cpp \
+        game.cpp \
+        gamestate.cpp \
         main.cpp \
-    monsters.cpp \
-        player.cpp \
+        mainmenu.cpp \
+        state.cpp
 
 HEADERS += \
-    animation.h \
-    monsters.h \
-    player.h \
+    button.h \
+    entity.h \
+    game.h \
+    gamestate.h \
+    mainmenu.h \
+    state.h
