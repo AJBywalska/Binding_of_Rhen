@@ -2,16 +2,18 @@
 
 void MainMenu::initFonts()
 {
-    if(!font.loadFromFile("Fonts/Raleway-BlackItalic.ttf")) {std::cout<<"FONT ERROR";}
+    if(!font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf")) {std::cout<<"FONT ERROR";}
 }
 
 void MainMenu::initButtons()
 {
-    buttons["gameButton"] = new Button(200, 200, 300, 100, &font, "New Game",
-       sf::Color(70, 70, 70, 200), sf::Color(115, 115, 115, 255), sf::Color(20, 20, 20, 200));
+    buttons["gameButton"] = new Button(200.f, 200.f, 300.f, 60.f, &font, "New Game", 50,
+       sf::Color(31, 31, 31, 200), sf::Color(217, 217, 217, 250), sf::Color(20, 20, 20, 50),
+       sf::Color(70, 70, 70, 0), sf::Color(115, 115, 115, 0), sf::Color(20, 20, 20, 0));
 
-    buttons["exitButton"] = new Button(200, 500, 300, 100, &font, "Exit Game",
-       sf::Color(70, 70, 70, 200), sf::Color(115, 115, 115, 255), sf::Color(20, 20, 20, 200));
+    buttons["exitButton"] = new Button(200.f, 500.f, 300.f, 60.f, &font, "Exit Game", 50,
+       sf::Color(31, 31, 31, 200), sf::Color(217, 217, 217, 250), sf::Color(20, 20, 20, 50),
+       sf::Color(70, 70, 70, 0), sf::Color(115, 115, 115, 0), sf::Color(20, 20, 20, 0));
 }
 
 MainMenu::MainMenu(sf::RenderWindow *window_, std::stack<State*>* states)

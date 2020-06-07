@@ -6,7 +6,10 @@
 class GameState : public State
 {
 private:
-    Entity player;
+    Player* player;
+
+    void initTextures();
+    void initPlayers();
 
 public:
     GameState(sf::RenderWindow *window_, std::stack<State*>* states);

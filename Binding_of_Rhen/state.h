@@ -1,14 +1,14 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include "entity.h"
+#include "player.h"
 
 class State
 {
 protected:
     std::stack<State*>* states;
     sf::RenderWindow* window_;
-    std::vector<sf::Texture> textures;
+    std::map<std::string, sf::Texture> textures;
     bool quit;
 
     sf::Vector2i mousePosScreen;

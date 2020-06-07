@@ -1,34 +1,26 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
-#include <stack>
-#include <map>
-#include <vector>
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Network.hpp>
+#include "movement.h"
+#include "animation.h"
 
 class Entity
 {
 protected:
-    sf::Texture* texture;
-    sf::Sprite* sprite;
-    float speed;
+    sf::Sprite sprite;
+
+    Movement* movment;
+    Animation* animation;
 
 public:
     Entity();
     virtual ~Entity();
 
-    void  createSprite(sf::Texture* texture);
+    void  setTexture(sf::Texture& texture);
+    void createMovment(const float maxVelocity, const float acceleration, const float deceleration);
+    void createAnimation(sf::Texture& texture);
 
+    virtual void setPosition(const float x, const float y);
     virtual void move(const float& deltaTime, const float x, const float y);
 
     virtual void update(const float& deltaTime);

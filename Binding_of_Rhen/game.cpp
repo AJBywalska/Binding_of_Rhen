@@ -61,7 +61,7 @@ void Game::update()
 
 void Game::render()
 {
-    window_->clear();
+    window_->clear(sf::Color(207, 207, 207));
 
     if(!states.empty()){
         states.top()->render();
@@ -79,3 +79,4 @@ void Game::run()
         render();
     }
 }
+

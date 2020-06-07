@@ -1,0 +1,10 @@
+debug/animation.o
+debug/button.o
+debug/entity.o
+debug/game.o
+debug/gamestate.o
+debug/main.o
+debug/mainmenu.o
+debug/movement.o
+debug/player.o
+debug/state.o

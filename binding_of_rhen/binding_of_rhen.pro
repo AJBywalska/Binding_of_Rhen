@@ -11,18 +11,24 @@ CONFIG(debug, debug|release){
 }
 
 SOURCES += \
+        animation.cpp \
         button.cpp \
         entity.cpp \
         game.cpp \
         gamestate.cpp \
         main.cpp \
         mainmenu.cpp \
+        movement.cpp \
+        player.cpp \
         state.cpp
 
 HEADERS += \
+    animation.h \
     button.h \
     entity.h \
     game.h \
     gamestate.h \
     mainmenu.h \
+    movement.h \
+    player.h \
     state.h

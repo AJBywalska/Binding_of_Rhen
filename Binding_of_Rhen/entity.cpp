@@ -2,26 +2,41 @@
 
 Entity::Entity()
 {
-    texture = nullptr;
-    sprite = nullptr;
-    speed = 100.f;
+    movment = nullptr;
 }
 
 Entity::~Entity()
 {
-    delete sprite;
+    delete movment;
+    delete animation;
 }
 
-void Entity::createSprite(sf::Texture *texture)
+void Entity::setTexture(sf::Texture& texture)
 {
-    this->texture = texture;
-    this->sprite->setTexture(*texture);
+    sprite.setTexture(texture);
+    sprite.setScale(0.5f, 0.5f);
+}
+
+void Entity::createMovment(const float maxVelocity, const float acceleration, const float deceleration)
+{
+    movment = new Movement(sprite, maxVelocity, acceleration, deceleration);
+}
+
+void Entity::createAnimation(sf::Texture &texture)
+{
+    animation = new Animation(sprite, texture);
+}
+
+void Entity::setPosition(const float x, const float y)
+{
+    sprite.setPosition(x,y);
 }
 
 void Entity::move(const float& deltaTime, const float x, const float y)
 {
-    if(sprite)
-        sprite->move(x*speed*deltaTime,y*speed*deltaTime);
+    if(movment){
+        movment->move(x, y, deltaTime);
+    }
 }
 
 void Entity::update(const float &deltaTime)
@@ -31,6 +46,5 @@ void Entity::update(const float &deltaTime)
 
 void Entity::render(sf::RenderTarget* target)
 {
-    if(sprite)
-        target->draw(*sprite);
+    target->draw(sprite);
 }

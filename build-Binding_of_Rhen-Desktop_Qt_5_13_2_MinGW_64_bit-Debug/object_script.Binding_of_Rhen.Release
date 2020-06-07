@@ -1,0 +1,10 @@
+release/animation.o
+release/button.o
+release/entity.o
+release/game.o
+release/gamestate.o
+release/main.o
+release/mainmenu.o
+release/movement.o
+release/player.o
+release/state.o

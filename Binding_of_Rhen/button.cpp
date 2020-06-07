@@ -1,28 +1,32 @@
 #include "button.h"
 
-Button::Button(float x, float y, float width, float height, sf::Font* font,
-               std::string text, sf::Color idleColor,
-               sf::Color hoverColor, sf::Color activeColor)
+Button::Button(float x, float y, float width, float height,
+               sf::Font* font, std::string text, unsigned textSize,
+               sf::Color text_idleColor, sf::Color text_hoverColor, sf::Color text_activeColor,
+               sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor)
 {
     buttomState = idle;
 
     shape.setPosition(sf::Vector2f(x, y));
     shape.setSize(sf::Vector2f(width, height));
+    shape.setFillColor(idleColor);
 
     this->font = font;
-    this->text.setFont(*this->font);
+    this->text.setFont(*font);
     this->text.setString(text);
-    this->text.setFillColor(sf::Color::White);
-    this->text.setCharacterSize(20);
+    this->text.setFillColor(text_idleColor);
+    this->text.setCharacterSize(textSize);
     this->text.setPosition(
-          this->shape.getPosition().x + (shape.getGlobalBounds().width/2.f) - this->text.getGlobalBounds().width/2.f,
-          this->shape.getPosition().y + (shape.getGlobalBounds().height/2.f) - this->text.getGlobalBounds().height/2.f);
+          shape.getPosition().x + (shape.getGlobalBounds().width/2.f) - this->text.getGlobalBounds().width/2.f,
+          shape.getPosition().y + (shape.getGlobalBounds().height/2.f) - this->text.getGlobalBounds().height/2.f);
 
     this->idleColor = idleColor;
     this->hoverColor = hoverColor;
     this->activeColor = activeColor;
 
-    shape.setFillColor(idleColor);
+    this->text_idleColor = text_idleColor;
+    this->text_hoverColor = text_hoverColor;
+    this->text_activeColor = text_activeColor;
 }
 
 Button::~Button()
@@ -53,15 +57,19 @@ void Button::update(const sf::Vector2f mousePos)
     switch (buttomState) {
     case idle:
         shape.setFillColor(idleColor);
+        text.setFillColor(text_idleColor);
         break;
     case hover:
         shape.setFillColor(hoverColor);
+        text.setFillColor(text_hoverColor);
         break;
     case pressed:
         shape.setFillColor(activeColor);
+        text.setFillColor(text_activeColor);
         break;
     default:
         shape.setFillColor(sf::Color::Red);
+        text.setFillColor(sf::Color::Blue);
         break;
     }
 }
