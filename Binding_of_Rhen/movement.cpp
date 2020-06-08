@@ -1,7 +1,7 @@
 #include "movement.h"
 
-Movement::Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, float deceleration)
-    : sprite(sprite), maxVelocity(maxVelocity), acceleration_(acceleration), deceleration_(deceleration)
+Movement::Movement(sf::Sprite& sprite, float maxVelocity/*, float acceleration, float deceleration*/)
+    : sprite(sprite), maxVelocity(maxVelocity)/*, acceleration_(acceleration), deceleration_(deceleration)*/
 {
     this->maxVelocity = maxVelocity;
 }
@@ -9,6 +9,11 @@ Movement::Movement(sf::Sprite& sprite, float maxVelocity, float acceleration, fl
 Movement::~Movement()
 {
 
+}
+
+const float &Movement::getMaxVelocity() const
+{
+    return maxVelocity;
 }
 
 const sf::Vector2f &Movement::getVelocity() const
@@ -48,55 +53,57 @@ const bool Movement::getDirection(const unsigned short state) const
         if(velocity.y > 0.f)
                 return true;
         break;
-
-    default:
-        break;
     }
     return false;
 }
 
 void Movement::move(const float x, const float y, const float& deltaTime)
 {
-    velocity.x += acceleration_ * x;
-    velocity.y += acceleration_ * y;
+//    velocity.x += acceleration_ * x;
+//    velocity.y += acceleration_ * y;
+
+    velocity.x = maxVelocity * x;
+    velocity.y = maxVelocity * y;
+    sprite.move(velocity * deltaTime);
 }
 
 void Movement::update(const float &deltaTime)
 {
-    if(velocity.x > 0.f){
-        if(velocity.x > maxVelocity)
-            velocity.x = maxVelocity;
+//    if(velocity.x > 0.f){
+//        if(velocity.x > maxVelocity)
+//            velocity.x = maxVelocity;
 
-        velocity.x -= deceleration_;
-        if(velocity.x < 0.f)
-            velocity.x = 0.f;
-    }
-    else{
-        if(velocity.x < -maxVelocity)
-            velocity.x = -maxVelocity;
+//        velocity.x -= deceleration_;
+//        if(velocity.x < 0.f)
+//            velocity.x = 0.f;
+//    }
+//    else if(velocity.x < 0.f){
 
-        velocity.x += deceleration_;
-        if(velocity.x > 0.f)
-            velocity.x = 0.f;
-    }
+//        if(velocity.x < -maxVelocity)
+//            velocity.x = -maxVelocity;
 
-    if(velocity.y > 0.f){
-        if(velocity.y > maxVelocity)
-            velocity.y = maxVelocity;
+//        velocity.x += deceleration_;
+//        if(velocity.x > 0.f)
+//            velocity.x = 0.f;
+//    }
 
-        velocity.y -= deceleration_;
-        if(velocity.y < 0.f)
-            velocity.y = 0.f;
-    }
-    else{
-        if(velocity.y < -maxVelocity)
-            velocity.y = -maxVelocity;
+//    if(velocity.y > 0.f){
+//        if(velocity.y > maxVelocity)
+//            velocity.y = maxVelocity;
 
-        velocity.y += deceleration_;
-        if(velocity.y > 0.f)
-            velocity.y = 0.f;
-    }
+//        velocity.y -= deceleration_;
+//        if(velocity.y < 0.f)
+//            velocity.y = 0.f;
+//    }
+//    else if(velocity.y < 0.f){
+//        if(velocity.y < -maxVelocity)
+//            velocity.y = -maxVelocity;
 
-    sprite.move(velocity * deltaTime);
+//        velocity.y += deceleration_;
+//        if(velocity.y > 0.f)
+//            velocity.y = 0.f;
+//    }
+
+//    sprite.move(velocity * deltaTime);
 }
 

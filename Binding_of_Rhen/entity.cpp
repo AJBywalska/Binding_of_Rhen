@@ -3,12 +3,15 @@
 Entity::Entity()
 {
     movment = nullptr;
+    animation = nullptr;
+    hitbox = nullptr;
 }
 
 Entity::~Entity()
 {
     delete movment;
     delete animation;
+    delete hitbox;
 }
 
 void Entity::setTexture(sf::Texture& texture)
@@ -17,14 +20,19 @@ void Entity::setTexture(sf::Texture& texture)
     sprite.setScale(0.5f, 0.5f);
 }
 
-void Entity::createMovment(const float maxVelocity, const float acceleration, const float deceleration)
+void Entity::createMovment(const float maxVelocity/*, const float acceleration, const float deceleration*/)
 {
-    movment = new Movement(sprite, maxVelocity, acceleration, deceleration);
+    movment = new Movement(sprite, maxVelocity/*, acceleration, deceleration*/);
 }
 
 void Entity::createAnimation(sf::Texture &texture)
 {
     animation = new Animation(sprite, texture);
+}
+
+void Entity::createHitbox(sf::Sprite &sprite, float x, float y, float width, float height)
+{
+    hitbox = new Hitbox(sprite, x, y, width, height);
 }
 
 void Entity::setPosition(const float x, const float y)
@@ -44,7 +52,10 @@ void Entity::update(const float &deltaTime)
 
 }
 
-void Entity::render(sf::RenderTarget* target)
+void Entity::render(sf::RenderTarget& target)
 {
-    target->draw(sprite);
+    target.draw(sprite);
+
+    if(hitbox)
+        hitbox->render(target);
 }

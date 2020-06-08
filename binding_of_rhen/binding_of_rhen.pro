@@ -16,6 +16,7 @@ SOURCES += \
         entity.cpp \
         game.cpp \
         gamestate.cpp \
+        hitbox.cpp \
         main.cpp \
         mainmenu.cpp \
         movement.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     entity.h \
     game.h \
     gamestate.h \
+    hitbox.h \
     mainmenu.h \
     movement.h \
     player.h \

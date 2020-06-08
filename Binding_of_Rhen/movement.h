@@ -30,10 +30,11 @@ private:
 
 
 public:
-    Movement(sf::Sprite& sprite, float maxVelocity,
-             float acceleration, float deceleration);
+    Movement(sf::Sprite& sprite, float maxVelocity/*,
+             float acceleration, float deceleration*/);
     virtual ~Movement();
 
+    const float &getMaxVelocity() const;
     const sf::Vector2f &getVelocity() const;
 
     const bool getDirection(const short unsigned state) const;

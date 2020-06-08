@@ -11,8 +11,6 @@ protected:
     std::map<std::string, sf::Texture> textures;
     bool quit;
 
-    sf::Vector2i mousePosScreen;
-    sf::Vector2i mousePosWindow;
     sf::Vector2f mousePosView;
 
 public:

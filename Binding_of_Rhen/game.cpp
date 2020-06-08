@@ -8,7 +8,6 @@ void Game::initWindow()
 void Game::initStates()
 {
     states.push(new MainMenu(window_, &states));
-    //this->states.push(new GameState(this->window_));
 }
 
 Game::Game()

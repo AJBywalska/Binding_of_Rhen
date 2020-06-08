@@ -3,7 +3,7 @@
 void GameState::initTextures()
 {
     sf::Texture temp;
-    temp.loadFromFile("graphics/hero.png");
+    temp.loadFromFile("graphics/heroall.png");
     textures["idleFront"] = temp;
 }
 
@@ -26,13 +26,13 @@ GameState::~GameState()
 
 void GameState::updateKeyBinds(const float &deltaTime)
 {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         player->move(deltaTime, -1.f, 0.f);
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         player->move(deltaTime, 1.f, 0.f);
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         player->move(deltaTime, 0.f, -1.f);
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         player->move(deltaTime, 0.f, 1.f);
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -49,5 +49,8 @@ void GameState::update(const float &deltaTime)
 
 void GameState::render(sf::RenderTarget *target)
 {
-    player->render(window_);
+    if(!target)
+        target = window_;
+
+    player->render(*target);
 }

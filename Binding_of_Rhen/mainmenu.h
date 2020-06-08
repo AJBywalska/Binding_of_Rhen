@@ -24,7 +24,7 @@ public:
     void updateKeyBinds(const float& deltaTime);
     void updateButtons();
     void update(const float& deltaTime);
-    void renderButtons(sf::RenderTarget* target = nullptr);
+    void renderButtons(sf::RenderTarget& target);
     void render(sf::RenderTarget* target = nullptr);
 };
 

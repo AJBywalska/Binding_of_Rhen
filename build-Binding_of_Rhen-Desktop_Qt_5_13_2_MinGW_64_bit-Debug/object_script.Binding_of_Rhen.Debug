@@ -3,6 +3,7 @@ debug/button.o
 debug/entity.o
 debug/game.o
 debug/gamestate.o
+debug/hitbox.o
 debug/main.o
 debug/mainmenu.o
 debug/movement.o

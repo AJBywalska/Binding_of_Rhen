@@ -61,7 +61,7 @@ void MainMenu::update(const float &deltaTime)
     updateButtons();
 }
 
-void MainMenu::renderButtons(sf::RenderTarget *target)
+void MainMenu::renderButtons(sf::RenderTarget& target)
 {
     for(auto &it : buttons){
         it.second->render(target);
@@ -75,5 +75,5 @@ void MainMenu::render(sf::RenderTarget *target)
 
     target->draw(back);
 
-    renderButtons(target);
+    renderButtons(*target);
 }

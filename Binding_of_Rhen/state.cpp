@@ -25,7 +25,5 @@ void State::endState()
 
 void State::updateMousePos()
 {
-    mousePosScreen = sf::Mouse::getPosition();
-    mousePosWindow = sf::Mouse::getPosition(*window_);
     mousePosView = window_->mapPixelToCoords(sf::Mouse::getPosition(*window_));
 }
