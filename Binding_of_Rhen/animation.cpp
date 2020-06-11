@@ -83,7 +83,7 @@ const bool& Animation::play(const std::string key, const float &deltaTime, const
                     lastAnimation = animations[key];
                 }
             }
-            float value = abs(modifier/modifier_max);
+            float value = std::abs(modifier/modifier_max);
             if(animations[key]->play(deltaTime, value))
                 priorityAnimation = nullptr;
         }
@@ -104,7 +104,7 @@ const bool& Animation::play(const std::string key, const float &deltaTime, const
                 lastAnimation = animations[key];
             }
         }
-    float value = abs(modifier/modifier_max);
+    float value = std::abs(modifier/modifier_max);
     animations[key] ->play(deltaTime, value);
     }
     return animations[key]->isDone();

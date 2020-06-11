@@ -2,6 +2,7 @@
 #define STATE_H
 
 #include "player.h"
+#include "monsters.h"
 
 class State
 {

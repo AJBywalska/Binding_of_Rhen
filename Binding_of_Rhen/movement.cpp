@@ -28,6 +28,15 @@ const bool Movement::getDirection(const unsigned short state) const
         if(velocity.x == 0.f && velocity.y == 0.f)
             return true;
         break;
+    case up:
+        if(velocity.y < 0.f)
+            return true;
+        break;
+
+    case down:
+        if(velocity.y > 0.f)
+                return true;
+        break;
 
     case moving:
         if(velocity.x != 0.f || velocity.y != 0.f)
@@ -44,15 +53,7 @@ const bool Movement::getDirection(const unsigned short state) const
             return true;
         break;
 
-    case up:
-        if(velocity.y < 0.f)
-            return true;
-        break;
 
-    case down:
-        if(velocity.y > 0.f)
-                return true;
-        break;
     }
     return false;
 }

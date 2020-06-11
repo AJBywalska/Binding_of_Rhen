@@ -14,12 +14,6 @@ Entity::~Entity()
     delete hitbox;
 }
 
-void Entity::setTexture(sf::Texture& texture)
-{
-    sprite.setTexture(texture);
-    sprite.setScale(0.5f, 0.5f);
-}
-
 void Entity::createMovment(const float maxVelocity/*, const float acceleration, const float deceleration*/)
 {
     movment = new Movement(sprite, maxVelocity/*, acceleration, deceleration*/);
@@ -40,7 +34,7 @@ void Entity::setPosition(const float x, const float y)
     sprite.setPosition(x,y);
 }
 
-void Entity::move(const float& deltaTime, const float x, const float y)
+void Entity::move(const float x, const float y, const float& deltaTime)
 {
     if(movment){
         movment->move(x, y, deltaTime);

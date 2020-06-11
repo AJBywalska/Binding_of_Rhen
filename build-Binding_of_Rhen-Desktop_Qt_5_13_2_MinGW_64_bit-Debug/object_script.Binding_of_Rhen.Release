@@ -6,6 +6,7 @@ release/gamestate.o
 release/hitbox.o
 release/main.o
 release/mainmenu.o
+release/monsters.o
 release/movement.o
 release/player.o
 release/state.o

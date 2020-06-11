@@ -19,6 +19,7 @@ SOURCES += \
         hitbox.cpp \
         main.cpp \
         mainmenu.cpp \
+        monsters.cpp \
         movement.cpp \
         player.cpp \
         state.cpp
@@ -31,6 +32,7 @@ HEADERS += \
     gamestate.h \
     hitbox.h \
     mainmenu.h \
+    monsters.h \
     movement.h \
     player.h \
     state.h
