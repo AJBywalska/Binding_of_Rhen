@@ -23,6 +23,7 @@ class Game
 private:
     sf::RenderWindow *window_;
     sf::Event evnt;
+
     std::vector<sf::VideoMode> videModes;
     sf::ContextSettings windowSettings;
     bool fullscrean;

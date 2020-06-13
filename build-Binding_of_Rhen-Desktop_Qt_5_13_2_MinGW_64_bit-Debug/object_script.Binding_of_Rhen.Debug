@@ -6,6 +6,7 @@ debug/gamestate.o
 debug/hitbox.o
 debug/main.o
 debug/mainmenu.o
+debug/map.o
 debug/monsters.o
 debug/movement.o
 debug/player.o

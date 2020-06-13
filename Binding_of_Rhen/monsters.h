@@ -13,7 +13,7 @@ public:
     virtual ~Monsters();
 
     const sf::Vector2f &getPosition() const;
-    sf::IntRect setGlobalBounds();
+    sf::IntRect GlobalBounds();
 
     void updateAnimation(const float& deltaTime);
     virtual void update(const float& deltaTime);

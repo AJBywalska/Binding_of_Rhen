@@ -16,7 +16,7 @@ public:
     virtual ~Player();
 
     const sf::Vector2f &getPosition() const;
-    sf::IntRect setGlobalBounds();
+    sf::IntRect GlobalBounds();
 
     void updateAttack();
     void updateAnimation(const float& deltaTime);

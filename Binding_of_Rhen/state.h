@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "monsters.h"
+#include "map.h"
 
 class State
 {

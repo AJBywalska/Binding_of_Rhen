@@ -14,6 +14,9 @@ protected:
     Animation* animation;
     Hitbox* hitbox;
 
+    int hp;
+    int hpMax = 3;
+
 public:
     Entity();
     virtual ~Entity();
@@ -21,6 +24,11 @@ public:
     void createMovment(const float maxVelocity/*, const float acceleration, const float deceleration*/);
     void createAnimation(sf::Texture& texture);
     void createHitbox(sf::Sprite& sprite, float x, float y, float width, float height);
+
+    void loseHP();
+    void gainHP(const int hp);
+
+    const bool isDead() const;
 
     virtual void setPosition(const float x, const float y);
     virtual void move(const float x, const float y, const float& deltaTime);

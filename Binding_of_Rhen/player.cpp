@@ -8,7 +8,9 @@ void Player::initComponents()
 Player::Player(float x, float y, sf::Texture& texture)
 {
     setPosition(x, y);
-    setGlobalBounds();
+    GlobalBounds();
+
+    hp = 3;
 
     attacking = false;
 
@@ -37,7 +39,7 @@ const sf::Vector2f &Player::getPosition() const
     return sprite.getPosition();
 }
 
-sf::IntRect Player::setGlobalBounds()
+sf::IntRect Player::GlobalBounds()
 {
     rect.top = sprite.getGlobalBounds().top + 60;
     rect.left = sprite.getGlobalBounds().left + 85;

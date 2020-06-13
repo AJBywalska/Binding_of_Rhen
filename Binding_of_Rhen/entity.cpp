@@ -29,6 +29,27 @@ void Entity::createHitbox(sf::Sprite &sprite, float x, float y, float width, flo
     hitbox = new Hitbox(sprite, x, y, width, height);
 }
 
+void Entity::loseHP()
+{
+    this->hp -= 1;
+
+    if (this->hp < 0)
+        this->hp = 0;
+}
+
+void Entity::gainHP(const int hp)
+{
+    this->hp += hp;
+
+    if (this->hp > this->hpMax)
+        this->hp = this->hpMax;
+}
+
+const bool Entity::isDead() const
+{
+    return hp <= 0;
+}
+
 void Entity::setPosition(const float x, const float y)
 {
     sprite.setPosition(x,y);
