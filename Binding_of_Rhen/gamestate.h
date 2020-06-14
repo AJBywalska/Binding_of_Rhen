@@ -6,31 +6,35 @@
 class GameState : public State
 {
 private:
+    int random1;
+    int random2;
+    int random3;
     int random_direction;
+
+    int count = 0;
+
     sf::Text text;
     sf::Font font;
 
-    int hp;
-    int hpMax = 3;
-
-    sf::Clock clock;
-    sf::Time elapsed;
-    float time = 0.f;
-    const float timeLimit = 2.f;
+    sf::Clock timer;
+    float timeMax;
 
     Player* player;
     std::vector<Monsters*> monsters;
     Movement* movment;
     Map* map;
+    Blank* blank;
 
     void initTextures();
     void initPlayers();
+    void initTime();
 
 public:
     GameState(sf::RenderWindow *window_, std::stack<State*>* states);
     virtual ~GameState();
 
     bool intersect();
+    bool getTime();
 
     void updateKeyBinds(const float& deltaTime);
     void update(const float& deltaTime);

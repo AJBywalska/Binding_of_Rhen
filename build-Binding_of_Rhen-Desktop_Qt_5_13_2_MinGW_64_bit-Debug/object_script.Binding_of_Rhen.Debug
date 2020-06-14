@@ -1,4 +1,5 @@
 debug/animation.o
+debug/blank.o
 debug/button.o
 debug/entity.o
 debug/game.o

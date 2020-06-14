@@ -29,5 +29,5 @@ void Hitbox::update()
 
 void Hitbox::render(sf::RenderTarget &target)
 {
-    target.draw(hitbox);
+//    target.draw(hitbox);
 }

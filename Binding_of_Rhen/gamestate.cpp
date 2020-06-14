@@ -6,8 +6,8 @@ void GameState::initTextures()
     temp.loadFromFile("graphics/entire.png");
     textures["idleFront"] = temp;
 
-    std::vector<sf::Texture> temp_tex(4);
-    for(int i=0; i<4; i++)
+    std::vector<sf::Texture> temp_tex(3);
+    for(int i=0; i<3; i++)
     {
         temp_tex[0].loadFromFile("graphics/golem.png");
         textures["idleGolem"] = temp_tex[0];
@@ -19,17 +19,27 @@ void GameState::initTextures()
 
     temp.loadFromFile("graphics/tlo.png");
     textures["background"] = temp;
+
+    temp.loadFromFile("graphics/blank.png");
+    textures["blank"] = temp;
 }
 
 void GameState::initPlayers()
 {
     player = new Player(780, 450, textures["idleFront"]);
 
-    monsters.emplace_back(new Monsters(rand()%1700, rand()%800, textures["idleGolem"]));
-    monsters.emplace_back(new Monsters(rand()%1700, rand()%800, textures["idleOgre"]));
-    monsters.emplace_back(new Monsters(rand()%1700, rand()%800, textures["idleReape"]));
+    monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%800, textures["idleGolem"]));
+    monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%800, textures["idleOgre"]));
+    monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%800, textures["idleReape"]));
 
+    blank = new Blank(-300, -300, textures["blank"]);
     map = new Map(0, 0 , textures["background"]);
+}
+
+void GameState::initTime()
+{
+    this->timeMax = 2.f;
+    this->timer.restart();
 }
 
 GameState::GameState(sf::RenderWindow *window_, std::stack<State*>* states)
@@ -37,6 +47,7 @@ GameState::GameState(sf::RenderWindow *window_, std::stack<State*>* states)
 {
     initTextures();
     initPlayers();
+    initTime();
 }
 
 GameState::~GameState()
@@ -58,59 +69,62 @@ bool GameState::intersect()
     return false;
 }
 
+bool GameState::getTime()
+{
+    if (this->timer.getElapsedTime().asSeconds() >= this->timeMax)
+        {
+            this->timer.restart();
+            return true;
+        }
+
+        return false;
+}
+
 
 
 void GameState::updateKeyBinds(const float &deltaTime)
 {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-        player->move(-1.f, 0.f, deltaTime);}
+        player->move(-3.f, 0.f, deltaTime);}
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-        player->move(1.f, 0.f, deltaTime);}
+        player->move(3.f, 0.f, deltaTime);}
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-        player->move(0.f, -1.f, deltaTime);}
+        player->move(0.f, -3.f, deltaTime);}
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-        player->move(0.f, 1.f, deltaTime);}
+        player->move(0.f, 3.f, deltaTime);}
 
     if(player->GlobalBounds().left < 100)
-        player->move(1.f, 0.f, deltaTime);
+        player->move(3.f, 0.f, deltaTime);
     if(player->GlobalBounds().left + player->GlobalBounds().width > 1820)
-        player->move(-1.f, 0.f, deltaTime);
+        player->move(-3.f, 0.f, deltaTime);
     if(player->GlobalBounds().top < -20)
-        player->move(0.f, 1.f, deltaTime);
+        player->move(0.f, 3.f, deltaTime);
     if(player->GlobalBounds().top + player->GlobalBounds().height > 955)
-        player->move(0.f, -1.f, deltaTime);
-
+        player->move(0.f, -3.f, deltaTime);
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         endState();
 
     for(auto &monster : monsters){
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        monster->move(-1.f, 0.f, deltaTime);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        monster->move(1.f, 0.f, deltaTime);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        monster->move(0.f, -1.f, deltaTime);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-         monster->move(0.f, 1.f, deltaTime);
 
         if(monster->GlobalBounds().left < 110)
-            monster->move(1.f, 0.f, deltaTime);
+            monster->anime(1.f, 0.f);
         if(monster->GlobalBounds().left + monster->GlobalBounds().width > 1810)
-            monster->move(-1.f, 0.f, deltaTime);
+            monster->anime(-1.f, 0.f);
         if(monster->GlobalBounds().top < -10)
-            monster->move(0.f, 1.f, deltaTime);
+            monster->anime(0.f, 1.f);
         if(monster->GlobalBounds().top + monster->GlobalBounds().height > 955)
-            monster->move(0.f, -1.f, deltaTime);
+            monster->anime(0.f, -1.f);
     }
 
     if(intersect())
         player->loseHP();
 
+
     if(player->isDead())
     {
         font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
-        text.setPosition(700, 500);
+        text.setPosition(600, 450);
         text.setFont(font);
         text.setCharacterSize(100);
         text.setOutlineColor(sf::Color::Red);
@@ -118,29 +132,60 @@ void GameState::updateKeyBinds(const float &deltaTime)
         text.setString("Game Over!!!");
     }
 
+    for(int i=0; i<3; i++){
+        if(monsters[i]->isDead()){
+            count++;
+            i++;}
+    }
 
-//    time += elapsed.asSeconds();
-
-//    if(time >= timeLimit){
-//         time -= timeLimit;
-//        for(auto &monster : monsters){
-//        random_direction = rand()%4;
-//            switch (random_direction) {
-//            case 0: speed_x = 1; speed_y = 0;
-//                monster->move(-std::abs(speed_x), speed_y, deltaTime);
-//                break;
-//            case 1: speed_x = 1; speed_y = 0;
-//                monster->move(speed_x, speed_y, deltaTime);
-//                break;
-//            case 2: speed_x = 0; speed_y = 1;
-//                monster->move(speed_x, speed_y, deltaTime);
-//                break;
-//            case 3: speed_x = 0; speed_y = 1;
-//                monster->move(speed_x, -std::abs(speed_y), deltaTime);
-//                break;
-//            }
-//        }
+//    if(count == 3)
+//    {
+//        font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
+//        text.setPosition(600, 450);
+//        text.setFont(font);
+//        text.setCharacterSize(100);
+//        text.setFillColor(sf::Color::Black);
+//        text.setOutlineColor(sf::Color::White);
+//        text.setOutlineThickness(12);
+//        text.setString("YOU WON!!!");
 //    }
+
+    if(getTime()){
+        random1 = rand()%4;
+        random2 = rand()%4;
+        random3 = rand()%4;
+    }
+
+    for(int i=0; i<3; i++){
+
+        if(i == 0)
+            random_direction = random1;
+        if(i == 1)
+            random_direction = random2;
+        else
+            random_direction = random3;
+
+    switch (random_direction) {
+        case 0: monsters[i]->anime(1.f, 0.f);
+            break;
+        case 1: monsters[i]->anime(-1.f, 0.f);
+            break;
+        case 2: monsters[i]->anime(0.f, 1.f);
+            break;
+        case 3: monsters[i]->anime(0.f, -1.f);
+            break;
+        }
+    }
+
+    if(player->isAttacking())
+    for(auto &monster : monsters){
+        if(player->hitbox->checkIntersect(monster->GlobalBounds())){
+            monster->setPosition(150 + rand()%1500, 150 + rand()%800);
+            monster->loseHP();
+        }
+
+    }
+
 
 }
 
@@ -163,22 +208,17 @@ void GameState::render(sf::RenderTarget *target)
         target = window_;
     map->render(*target);
 
-    for(auto &it : monsters)
-        it->render(*target);
+    for(auto &monster : monsters){
+        if(monster->isDead())
+            blank->render(*target);
+        else
+            monster->render(*target);
+    }
 
-    player->render(*target);
+    if(player->isDead())
+        blank->render(*target);
+    else
+        player->render(*target);
 
-
-    sf::Text mouseText;
-    sf::Font font;
-    font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
-    mouseText.setPosition(this->mousePosView);
-    mouseText.setFont(font);
-    mouseText.setCharacterSize(20);
-    std::stringstream ss;
-    ss<<this->mousePosView.x<<" "<<this->mousePosView.y;
-    mouseText.setString(ss.str());
-
-    target->draw(mouseText);
     target->draw(text);
 }

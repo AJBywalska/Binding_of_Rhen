@@ -17,6 +17,7 @@ public:
 
     const sf::Vector2f &getPosition() const;
     sf::IntRect GlobalBounds();
+    bool isAttacking();
 
     void updateAttack();
     void updateAnimation(const float& deltaTime);

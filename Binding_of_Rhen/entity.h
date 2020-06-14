@@ -5,19 +5,22 @@
 #include "animation.h"
 #include "hitbox.h"
 
-class Entity
+class Entity : public sf::Sprite
 {
 protected:
     sf::Sprite sprite;
 
     Movement* movment;
     Animation* animation;
-    Hitbox* hitbox;
 
-    int hp;
+
+
     int hpMax = 3;
 
 public:
+    Hitbox* hitbox;
+    int hp;
+
     Entity();
     virtual ~Entity();
 

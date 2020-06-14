@@ -5,6 +5,8 @@ Monsters::Monsters(float x, float y, sf::Texture &texture)
     setPosition(x, y);
     GlobalBounds();
 
+    hp = 3;
+
     createMovment(300.f/*, 15.f, 5.f*/);
     createAnimation(texture);
     createHitbox(sprite, 60.f, 60.f, 115.f, 150.f);
@@ -24,7 +26,7 @@ const sf::Vector2f &Monsters::getPosition() const
     return sprite.getPosition();
 }
 
-sf::IntRect Monsters::GlobalBounds()
+sf::FloatRect Monsters::GlobalBounds()
 {
     rect.top = sprite.getGlobalBounds().top + 60;
     rect.left = sprite.getGlobalBounds().left + 60;
@@ -32,6 +34,21 @@ sf::IntRect Monsters::GlobalBounds()
     rect.height = sprite.getGlobalBounds().height - 100;
 
     return rect;
+}
+
+sf::FloatRect Monsters::getHitbox()
+{
+    box.top = 60.f;
+    box.left = 60.f;
+    box.width = 115.f;
+    box.height = 150.f;
+
+    return box;
+}
+
+void Monsters::anime(const float& x, const float& y)
+{
+    sprite.move(x, y);
 }
 
 void Monsters::updateAnimation(const float &deltaTime)

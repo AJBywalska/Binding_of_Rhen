@@ -12,6 +12,7 @@ CONFIG(debug, debug|release){
 
 SOURCES += \
         animation.cpp \
+        blank.cpp \
         button.cpp \
         entity.cpp \
         game.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 
 HEADERS += \
     animation.h \
+    blank.h \
     button.h \
     entity.h \
     game.h \

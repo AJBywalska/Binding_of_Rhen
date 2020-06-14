@@ -1,4 +1,5 @@
 release/animation.o
+release/blank.o
 release/button.o
 release/entity.o
 release/game.o

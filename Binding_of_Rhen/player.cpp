@@ -16,7 +16,7 @@ Player::Player(float x, float y, sf::Texture& texture)
 
     createMovment(300.f/*, 15.f, 5.f*/);
     createAnimation(texture);
-    createHitbox(sprite, 85.f, 60.f, 130.f, 175.f);
+    createHitbox(sprite, 40.f, 95.f, 200.f, 200.f);
 
     animation->addAnimation("idleFront", 3.f, 0, 0, 29, 0, 300, 300);
     animation->addAnimation("walkDown", 6.f, 0, 1, 29, 1, 300, 300);
@@ -47,6 +47,13 @@ sf::IntRect Player::GlobalBounds()
     rect.height = sprite.getGlobalBounds().height - 125;
 
     return rect;
+}
+
+bool Player::isAttacking()
+{
+    if(attacking)
+        return true;
+    return false;
 }
 
 void Player::updateAttack()
