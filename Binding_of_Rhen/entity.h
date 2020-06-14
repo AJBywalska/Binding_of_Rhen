@@ -13,9 +13,7 @@ protected:
     Movement* movment;
     Animation* animation;
 
-
-
-    int hpMax = 3;
+    int hpMax = 6;
 
 public:
     Hitbox* hitbox;
@@ -29,7 +27,7 @@ public:
     void createHitbox(sf::Sprite& sprite, float x, float y, float width, float height);
 
     void loseHP();
-    void gainHP(const int hp);
+    void gainHP();
 
     const bool isDead() const;
 

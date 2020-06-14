@@ -9,7 +9,15 @@ private:
     sf::IntRect rect;
     bool attacking;
 
-    void initComponents();
+    sf::Font font;
+    sf::Text text;
+
+    sf::RectangleShape hpBarBack;
+    sf::RectangleShape hpBarFront;
+    float hpBarMaxWidth;
+    float hpBarMaxHeight;
+
+    void initHPBar();
 
 public:
     Player(float x, float y, sf::Texture& texture);
@@ -19,10 +27,12 @@ public:
     sf::IntRect GlobalBounds();
     bool isAttacking();
 
+    void updateHPBar();
     void updateAttack();
     void updateAnimation(const float& deltaTime);
     virtual void update(const float& deltaTime);
 
+    void renderHPBar(sf::RenderTarget& target);
 };
 
 #endif // PLAYER_H

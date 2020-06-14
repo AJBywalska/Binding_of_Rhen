@@ -4,6 +4,7 @@ debug/button.o
 debug/entity.o
 debug/game.o
 debug/gamestate.o
+debug/heart.o
 debug/hitbox.o
 debug/main.o
 debug/mainmenu.o

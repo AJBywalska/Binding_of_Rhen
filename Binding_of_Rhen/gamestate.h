@@ -23,6 +23,7 @@ private:
     std::vector<Monsters*> monsters;
     Movement* movment;
     Map* map;
+    Heart* heart;
     Blank* blank;
 
     void initTextures();
@@ -33,8 +34,10 @@ public:
     GameState(sf::RenderWindow *window_, std::stack<State*>* states);
     virtual ~GameState();
 
-    bool intersect();
+    bool intersectMonster();
+    bool intersectHeart();
     bool getTime();
+    bool getHeartTime();
 
     void updateKeyBinds(const float& deltaTime);
     void update(const float& deltaTime);

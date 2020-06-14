@@ -17,6 +17,7 @@ SOURCES += \
         entity.cpp \
         game.cpp \
         gamestate.cpp \
+        heart.cpp \
         hitbox.cpp \
         main.cpp \
         mainmenu.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     entity.h \
     game.h \
     gamestate.h \
+    heart.h \
     hitbox.h \
     mainmenu.h \
     map.h \

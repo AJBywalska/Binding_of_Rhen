@@ -4,6 +4,7 @@ release/button.o
 release/entity.o
 release/game.o
 release/gamestate.o
+release/heart.o
 release/hitbox.o
 release/main.o
 release/mainmenu.o

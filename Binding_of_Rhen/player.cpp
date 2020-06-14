@@ -1,8 +1,23 @@
 #include "player.h"
 
-void Player::initComponents()
+void Player::initHPBar()
 {
+    hpBarMaxWidth  = 300.f;
 
+    hpBarBack.setSize(sf::Vector2f(300.f, 50.f));
+    hpBarBack.setFillColor(sf::Color(50, 50, 50, 200));
+    hpBarBack.setPosition(100.f, 20.f);
+
+    hpBarFront.setSize(sf::Vector2f(300.f, 50.f));
+    hpBarFront.setFillColor(sf::Color(250, 20, 20, 200));
+    hpBarFront.setPosition(hpBarBack.getPosition());
+
+    text.setFont(font);
+    text.setString("HP");
+    text.setCharacterSize(25);
+    text.setFillColor(sf::Color::Black);
+    text.setPosition(120, 30);
+    text.setOutlineThickness(2);
 }
 
 Player::Player(float x, float y, sf::Texture& texture)
@@ -10,7 +25,7 @@ Player::Player(float x, float y, sf::Texture& texture)
     setPosition(x, y);
     GlobalBounds();
 
-    hp = 3;
+    hp = hpMax/2;
 
     attacking = false;
 
@@ -18,15 +33,19 @@ Player::Player(float x, float y, sf::Texture& texture)
     createAnimation(texture);
     createHitbox(sprite, 40.f, 95.f, 200.f, 200.f);
 
+    initHPBar();
+
     animation->addAnimation("idleFront", 3.f, 0, 0, 29, 0, 300, 300);
     animation->addAnimation("walkDown", 6.f, 0, 1, 29, 1, 300, 300);
     animation->addAnimation("walkRight", 6.f, 0, 2, 29, 2, 300, 300);
     animation->addAnimation("walkLeft", 6.f, 0, 3, 29, 3, 300, 300);
     animation->addAnimation("walkUp", 6.f, 0, 4, 29, 4, 300, 300);
     animation->addAnimation("attackDown", 1.f, 0, 5, 14, 5, 300, 300);
-    animation->addAnimation("attackRight", 2.f, 0, 6, 14, 6, 300, 300);
-    animation->addAnimation("attackLeft", 2.f, 0, 7, 14, 7, 300, 300);
+    animation->addAnimation("attackRight", 3.f, 0, 6, 14, 6, 300, 300);
+    animation->addAnimation("attackLeft", 3.f, 0, 7, 14, 7, 300, 300);
     animation->addAnimation("attackUp", 1.f, 0, 8, 14, 8, 300, 300);
+
+    font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
 }
 
 Player::~Player()
@@ -54,6 +73,13 @@ bool Player::isAttacking()
     if(attacking)
         return true;
     return false;
+}
+
+void Player::updateHPBar()
+{
+    float percent = static_cast<float>(std::floor(hp))/static_cast<float>(std::floor(hpMax));
+
+    hpBarFront.setSize(sf::Vector2f(static_cast<float>(std::floor(hpBarMaxWidth * percent)), hpBarFront.getSize().y));
 }
 
 void Player::updateAttack()
@@ -97,7 +123,14 @@ void Player::update(const float &deltaTime)
     updateAttack();
     updateAnimation(deltaTime);
 
+    updateHPBar();
 
     hitbox->update();
 }
 
+void Player::renderHPBar(sf::RenderTarget &target)
+{
+    target.draw(hpBarBack);
+    target.draw(hpBarFront);
+    target.draw(text);
+}

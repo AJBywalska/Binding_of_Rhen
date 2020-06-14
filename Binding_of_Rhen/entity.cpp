@@ -31,15 +31,15 @@ void Entity::createHitbox(sf::Sprite &sprite, float x, float y, float width, flo
 
 void Entity::loseHP()
 {
-    this->hp -= 1;
+    this->hp--;
 
     if (this->hp < 0)
         this->hp = 0;
 }
 
-void Entity::gainHP(const int hp)
+void Entity::gainHP()
 {
-    this->hp += hp;
+    this->hp++;
 
     if (this->hp > this->hpMax)
         this->hp = this->hpMax;

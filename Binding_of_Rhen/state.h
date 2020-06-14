@@ -5,6 +5,7 @@
 #include "monsters.h"
 #include "map.h"
 #include "blank.h"
+#include "heart.h"
 
 class State
 {
