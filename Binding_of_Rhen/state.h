@@ -6,6 +6,7 @@
 #include "map.h"
 #include "blank.h"
 #include "heart.h"
+#include "fire.h"
 
 class State
 {

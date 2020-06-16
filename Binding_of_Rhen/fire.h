@@ -1,19 +1,20 @@
-#ifndef HEART_H
-#define HEART_H
+#ifndef FIRE_H
+#define FIRE_H
 
 #include "entity.h"
 
-class Heart : public Entity
+class Fire : public Entity
 {
 private:
     sf::FloatRect rect;
+    sf::FloatRect box;
 
 public:
-    Heart(float x, float y, sf::Texture& texture);
-    virtual ~Heart();
+    Fire(float x, float y, sf::Texture& texture);
+    virtual ~Fire();
 
     void updateAnimation(const float& deltaTime);
     virtual void update(const float& deltaTime);
 };
 
-#endif // HEART_H
+#endif // FIRE_H

@@ -11,12 +11,15 @@ private:
     int random3;
     int random_direction;
 
-    int count = 0;
+    unsigned count = 0;
+    bool getHeart;
 
     sf::Text text;
+    sf::Text textwon;
     sf::Font font;
 
     sf::Clock timer;
+    int timeToHeart = 0;
     float timeMax;
 
     Player* player;
@@ -25,6 +28,7 @@ private:
     Map* map;
     Heart* heart;
     Blank* blank;
+    std::vector<Fire*> fires;
 
     void initTextures();
     void initPlayers();
@@ -34,10 +38,12 @@ public:
     GameState(sf::RenderWindow *window_, std::stack<State*>* states);
     virtual ~GameState();
 
+    void removeMonster(const int index);
+
     bool intersectMonster();
     bool intersectHeart();
+    bool intersectFire();
     bool getTime();
-    bool getHeartTime();
 
     void updateKeyBinds(const float& deltaTime);
     void update(const float& deltaTime);

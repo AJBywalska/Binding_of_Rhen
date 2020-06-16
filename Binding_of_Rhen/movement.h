@@ -37,10 +37,9 @@ public:
     const float &getMaxVelocity() const;
     const sf::Vector2f &getVelocity() const;
 
-    const bool getDirection(const short unsigned state) const;
+    bool getDirection(const short unsigned state) const;
 
     void move(const float x,const float y, const float& deltaTime);
-    void update(const float& deltaTime);
 };
 
 #endif // MOVEMENT_H

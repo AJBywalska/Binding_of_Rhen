@@ -7,7 +7,7 @@ Monsters::Monsters(float x, float y, sf::Texture &texture)
 
     hp = 3;
 
-    createMovment(300.f/*, 15.f, 5.f*/);
+    createMovment(300.f);
     createAnimation(texture);
     createHitbox(sprite, 60.f, 60.f, 115.f, 150.f);
 

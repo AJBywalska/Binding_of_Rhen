@@ -6,11 +6,12 @@
 class Player : public Entity
 {
 private:
-    sf::IntRect rect;
+    sf::FloatRect rect;
     bool attacking;
 
     sf::Font font;
-    sf::Text text;
+    sf::Text hpBarText;
+    std::string hpBarString;
 
     sf::RectangleShape hpBarBack;
     sf::RectangleShape hpBarFront;
@@ -24,7 +25,7 @@ public:
     virtual ~Player();
 
     const sf::Vector2f &getPosition() const;
-    sf::IntRect GlobalBounds();
+    sf::FloatRect GlobalBounds();
     bool isAttacking();
 
     void updateHPBar();

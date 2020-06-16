@@ -25,30 +25,45 @@ void GameState::initTextures()
 
     temp.loadFromFile("graphics/heart.png");
     textures["heart"] = temp;
+
+    temp.loadFromFile("graphics/fire.png");
+    textures["fire"] = temp;
 }
 
 void GameState::initPlayers()
 {
-    player = new Player(780, 450, textures["idleFront"]);
+    player = new Player(30, -20, textures["idleFront"]);
 
-    monsters.emplace_back(new Monsters(310, 600, textures["idleGolem"]));
-    monsters.emplace_back(new Monsters(1680, 200, textures["idleOgre"]));
-    monsters.emplace_back(new Monsters(1400, 780, textures["idleReape"]));
+    for(int i=0; i<10; i++){
+        if(i<3)
+            monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%600, textures["idleGolem"]));
+        if(i<6 && i>=3)
+            monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%600, textures["idleOgre"]));
+        if(i>=6)
+            monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%600, textures["idleReape"]));
+    }
 
     heart = new Heart(150 + rand()%1500, 150 + rand()%600, textures["heart"]);
     blank = new Blank(-3000, -3000, textures["blank"]);
     map = new Map(0, 0 , textures["background"]);
+
+    fires.emplace_back(new Fire(250, 200, textures["fire"]));
+    fires.emplace_back(new Fire(1450, 200, textures["fire"]));
+    fires.emplace_back(new Fire(250, 600, textures["fire"]));
+    fires.emplace_back(new Fire(1450, 600, textures["fire"]));
 }
 
 void GameState::initTime()
 {
-    this->timeMax = 2.f;
+    this->timeMax = 1.f;
     this->timer.restart();
 }
 
 GameState::GameState(sf::RenderWindow *window_, std::stack<State*>* states)
         : State(window_, states)
 {
+    font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
+
     initTextures();
     initPlayers();
     initTime();
@@ -62,6 +77,14 @@ GameState::~GameState()
     delete map;
     delete blank;
     delete heart;
+    for(auto &it : fires)
+        delete it;
+}
+
+void GameState::removeMonster(const int index)
+{
+    delete monsters[index];
+    monsters.erase(monsters.begin() + index);
 }
 
 bool GameState::intersectMonster()
@@ -77,10 +100,21 @@ bool GameState::intersectMonster()
 
 bool GameState::intersectHeart()
 {
-    if(player->hitbox->checkIntersect(heart->GlobalBounds()))
+    if(heart->hitbox->checkIntersect(player->GlobalBounds())){
+        getHeart = true;
         return true;
+    }
     else
         return false;
+}
+
+bool GameState::intersectFire()
+{
+    for(auto &fire : fires)
+    if(fire->hitbox->checkIntersect(player->GlobalBounds())){
+        return true;
+    }
+    return false;
 }
 
 bool GameState::getTime()
@@ -93,20 +127,11 @@ bool GameState::getTime()
     return false;
 }
 
-bool GameState::getHeartTime()
-{
-    if (this->timer.getElapsedTime().asSeconds() >= this->timeMax*5)
-        {
-            this->timer.restart();
-            return true;
-        }
-    return false;
-}
-
-
-
 void GameState::updateKeyBinds(const float &deltaTime)
 {
+
+    //MOVING
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
         player->move(-2.f, 0.f, deltaTime);}
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
@@ -129,16 +154,20 @@ void GameState::updateKeyBinds(const float &deltaTime)
         endState();
 
     for(auto &monster : monsters){
+        for(auto &fire : fires){
 
-        if(monster->GlobalBounds().left < 110)
-            monster->anime(0.5f, 0.f);
-        if(monster->GlobalBounds().left + monster->GlobalBounds().width > 1810)
-            monster->anime(-0.5f, 0.f);
-        if(monster->GlobalBounds().top < -10)
-            monster->anime(0.f, 0.5f);
-        if(monster->GlobalBounds().top + monster->GlobalBounds().height > 955)
-            monster->anime(0.f, -0.5f);
+            if(monster->GlobalBounds().left < 110 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
+                monster->anime(5.f, 0.f);
+            if(monster->GlobalBounds().left + monster->GlobalBounds().width > 1810 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
+                monster->anime(-5.f, 0.f);
+            if(monster->GlobalBounds().top < -10 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
+                monster->anime(0.f, 5.f);
+            if(monster->GlobalBounds().top + monster->GlobalBounds().height > 955 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
+                monster->anime(0.f, -5.f);
+        }
     }
+
+    //HURT
 
     if(intersectMonster())
         player->loseHP();
@@ -148,9 +177,12 @@ void GameState::updateKeyBinds(const float &deltaTime)
         player->gainHP();
     }
 
+
+
+    //DEAD
+
     if(player->isDead())
     {
-        font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
         text.setPosition(600, 450);
         text.setFont(font);
         text.setCharacterSize(100);
@@ -159,33 +191,46 @@ void GameState::updateKeyBinds(const float &deltaTime)
         text.setString("Game Over!!!");
     }
 
-//    for(int i=0; i<3; i++){
-//        if(monsters[i]->isDead()){
-//            count++;
-//            i++;}
-//    }
+    if(intersectFire()){
+        player->loseHP();
 
-//    if(count == 3)
-//    {
-//        font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
-//        text.setPosition(600, 450);
-//        text.setFont(font);
-//        text.setCharacterSize(100);
-//        text.setFillColor(sf::Color::Black);
-//        text.setOutlineColor(sf::Color::White);
-//        text.setOutlineThickness(12);
-//        text.setString("YOU WON!!!");
-//    }
+        text.setPosition(650, 450);
+        text.setFont(font);
+        text.setCharacterSize(70);
+        text.setFillColor(sf::Color::Black);
+        text.setOutlineColor(sf::Color::Red);
+        text.setOutlineThickness(12);
+        text.setString("You have burned...");
+    }
+
+    //WIN
+
+    if(count == 10)
+    {
+        text.setPosition(700, 450);
+        text.setFont(font);
+        text.setCharacterSize(100);
+        text.setFillColor(sf::Color::Black);
+        text.setOutlineColor(sf::Color::White);
+        text.setOutlineThickness(12);
+        text.setString("YOU WON!!!");
+    }
 
     if(getTime()){
         random1 = rand()%4;
         random2 = rand()%4;
         random3 = rand()%4;
 
-        heart->setPosition(150 + rand()%1500, 150 + rand()%600);
+        timeToHeart++;
+
+        if(timeToHeart > 10){
+            timeToHeart = 0;
+            heart->setPosition(150 + rand()%1500, 150 + rand()%600);
+            getHeart = false;
+        }
     }
 
-    for(int i=0; i<3; i++){
+    for(unsigned i=0; i<monsters.size(); i++){
 
         if(i == 0)
             random_direction = random1;
@@ -195,16 +240,18 @@ void GameState::updateKeyBinds(const float &deltaTime)
             random_direction = random3;
 
     switch (random_direction) {
-        case 0: monsters[i]->anime(0.5f, 0.f);
+        case 0: monsters[i]->anime(5, 0.f);
             break;
-        case 1: monsters[i]->anime(-0.5f, 0.f);
+        case 1: monsters[i]->anime(-5.f, 0.f);
             break;
-        case 2: monsters[i]->anime(0.f, 0.5f);
+        case 2: monsters[i]->anime(0.f, 5.f);
             break;
-        case 3: monsters[i]->anime(0.f, -0.5f);
+        case 3: monsters[i]->anime(0.f, -5.f);
             break;
         }
     }
+
+    //ATTACK
 
     if(player->isAttacking())
     for(auto &monster : monsters){
@@ -223,33 +270,42 @@ void GameState::update(const float &deltaTime)
 
     player->update(deltaTime);
 
-    for(auto &it : monsters)
-        it->update(deltaTime);
+    for(auto &monster : monsters)
+        monster->update(deltaTime);
 
     map->update(deltaTime);
 
     heart->update(deltaTime);
+
+    for(auto &fire : fires)
+        fire->update(deltaTime);
 }
 
 void GameState::render(sf::RenderTarget *target)
 {
     if(!target)
         target = window_;
+
     map->render(*target);
 
     player->renderHPBar(*target);
 
-    if(intersectHeart())
+    for(auto &fire : fires)
+        fire->render(*target);
+
+    if(getHeart == true || timeToHeart > 2)
         blank->render(*target);
     else
         heart->render(*target);
 
-    for(auto &monster : monsters){
-        if(monster->isDead())
-            blank->render(*target);
-
-        else
+    for(auto &monster : monsters)
             monster->render(*target);
+
+    for(unsigned i=0; i<monsters.size(); i++){
+        if(monsters[i]->isDead()){
+            removeMonster(i);
+            count++;
+        }
     }
 
     if(player->isDead())

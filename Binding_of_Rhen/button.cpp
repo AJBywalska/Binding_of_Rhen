@@ -34,7 +34,7 @@ Button::~Button()
 
 }
 
-const bool Button::isPressed() const
+bool Button::isPressed() const
 {
     if(buttomState == pressed)
         return true;

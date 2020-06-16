@@ -15,6 +15,7 @@ SOURCES += \
         blank.cpp \
         button.cpp \
         entity.cpp \
+        fire.cpp \
         game.cpp \
         gamestate.cpp \
         heart.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     blank.h \
     button.h \
     entity.h \
+    fire.h \
     game.h \
     gamestate.h \
     heart.h \

@@ -45,7 +45,7 @@ void Entity::gainHP()
         this->hp = this->hpMax;
 }
 
-const bool Entity::isDead() const
+bool Entity::isDead() const
 {
     return hp <= 0;
 }
@@ -60,11 +60,6 @@ void Entity::move(const float x, const float y, const float& deltaTime)
     if(movment){
         movment->move(x, y, deltaTime);
     }
-}
-
-void Entity::update(const float &deltaTime)
-{
-
 }
 
 void Entity::render(sf::RenderTarget& target)

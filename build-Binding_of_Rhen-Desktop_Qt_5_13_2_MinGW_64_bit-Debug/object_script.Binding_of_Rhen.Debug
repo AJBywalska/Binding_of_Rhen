@@ -2,6 +2,7 @@ debug/animation.o
 debug/blank.o
 debug/button.o
 debug/entity.o
+debug/fire.o
 debug/game.o
 debug/gamestate.o
 debug/heart.o

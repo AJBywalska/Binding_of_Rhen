@@ -12,12 +12,11 @@ void Player::initHPBar()
     hpBarFront.setFillColor(sf::Color(250, 20, 20, 200));
     hpBarFront.setPosition(hpBarBack.getPosition());
 
-    text.setFont(font);
-    text.setString("HP");
-    text.setCharacterSize(25);
-    text.setFillColor(sf::Color::Black);
-    text.setPosition(120, 30);
-    text.setOutlineThickness(2);
+    hpBarText.setFont(font);
+    hpBarText.setCharacterSize(25);
+    hpBarText.setFillColor(sf::Color::White);
+    hpBarText.setPosition(120, 30);
+    hpBarText.setOutlineThickness(1);
 }
 
 Player::Player(float x, float y, sf::Texture& texture)
@@ -29,7 +28,7 @@ Player::Player(float x, float y, sf::Texture& texture)
 
     attacking = false;
 
-    createMovment(300.f/*, 15.f, 5.f*/);
+    createMovment(300.f);
     createAnimation(texture);
     createHitbox(sprite, 40.f, 95.f, 200.f, 200.f);
 
@@ -58,7 +57,7 @@ const sf::Vector2f &Player::getPosition() const
     return sprite.getPosition();
 }
 
-sf::IntRect Player::GlobalBounds()
+sf::FloatRect Player::GlobalBounds()
 {
     rect.top = sprite.getGlobalBounds().top + 60;
     rect.left = sprite.getGlobalBounds().left + 85;
@@ -80,6 +79,9 @@ void Player::updateHPBar()
     float percent = static_cast<float>(std::floor(hp))/static_cast<float>(std::floor(hpMax));
 
     hpBarFront.setSize(sf::Vector2f(static_cast<float>(std::floor(hpBarMaxWidth * percent)), hpBarFront.getSize().y));
+
+    hpBarString = std::to_string(hp) + " / " + std::to_string(hpMax);
+    hpBarText.setString(hpBarString);
 }
 
 void Player::updateAttack()
@@ -119,7 +121,6 @@ void Player::updateAnimation(const float &deltaTime)
 
 void Player::update(const float &deltaTime)
 {
-    movment->update(deltaTime);
     updateAttack();
     updateAnimation(deltaTime);
 
@@ -132,5 +133,5 @@ void Player::renderHPBar(sf::RenderTarget &target)
 {
     target.draw(hpBarBack);
     target.draw(hpBarFront);
-    target.draw(text);
+    target.draw(hpBarText);
 }
