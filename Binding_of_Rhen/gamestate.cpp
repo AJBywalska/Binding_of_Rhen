@@ -133,13 +133,13 @@ void GameState::updateKeyBinds(const float &deltaTime)
 
 //PLAYER MOVING
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
         player->move(-2.f, 0.f, deltaTime);}
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
         player->move(2.f, 0.f, deltaTime);}
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
         player->move(0.f, -2.f, deltaTime);}
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
         player->move(0.f, 2.f, deltaTime);}
 
     if(player->GlobalBounds().left < 100)
