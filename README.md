@@ -10,4 +10,13 @@ Opis potworków:
 -najłatwiejsze potworki, które będą w pierwszej fali będą łatwe do zabicia, ale będą dość szybko się poruszać
 -jeden z potworków na początku będzie wolny, jak się go zabije, to rozdzieli się na dwie części i przyspieszy
 
+
+# Instrukcja obsugi
+
+Graczem steruje się poprzez WSAD, atakuje się Spacją. Po rozpoczęciu gry można wrócić do menu wciskając Escape.
+
+
+
+
+
 ![makieta](binding_of_rhen_makieta.png)
