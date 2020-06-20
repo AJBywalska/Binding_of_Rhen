@@ -34,12 +34,12 @@ void GameState::initPlayers()
 {
     player = new Player(30, -20, textures["idleFront"]);
 
-    for(int i=0; i<10; i++){
-        if(i<3)
+    for(int i=0; i<12; i++){
+        if(i<4)
             monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%600, textures["idleGolem"]));
-        if(i<6 && i>=3)
+        if(i<8 && i>=4)
             monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%600, textures["idleOgre"]));
-        if(i>=6)
+        if(i>=8)
             monsters.emplace_back(new Monsters(150 + rand()%1500, 150 + rand()%600, textures["idleReape"]));
     }
 
@@ -55,7 +55,7 @@ void GameState::initPlayers()
 
 void GameState::initTime()
 {
-    this->timeMax = 1.f;
+    this->timeMax = 0.5f;
     this->timer.restart();
 }
 
@@ -63,6 +63,7 @@ GameState::GameState(sf::RenderWindow *window_, std::stack<State*>* states)
         : State(window_, states)
 {
     font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
+    hurtMusic.loadFromFile("sounds/hurt.wav");
 
     initTextures();
     initPlayers();
@@ -130,7 +131,7 @@ bool GameState::getTime()
 void GameState::updateKeyBinds(const float &deltaTime)
 {
 
-    //MOVING
+//PLAYER MOVING
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
         player->move(-2.f, 0.f, deltaTime);}
@@ -153,33 +154,37 @@ void GameState::updateKeyBinds(const float &deltaTime)
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         endState();
 
+//MONSTER MOVING
+
     for(auto &monster : monsters){
         for(auto &fire : fires){
 
             if(monster->GlobalBounds().left < 110 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
-                monster->anime(5.f, 0.f);
+                monster->anime(0.5f, 0.f);
             if(monster->GlobalBounds().left + monster->GlobalBounds().width > 1810 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
-                monster->anime(-5.f, 0.f);
+                monster->anime(-0.5f, 0.f);
             if(monster->GlobalBounds().top < -10 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
-                monster->anime(0.f, 5.f);
+                monster->anime(0.f, 0.5f);
             if(monster->GlobalBounds().top + monster->GlobalBounds().height > 955 || fire->hitbox->checkIntersect(monster->GlobalBounds()))
-                monster->anime(0.f, -5.f);
+                monster->anime(0.f, -0.5f);
         }
     }
 
-    //HURT
+//HURT
 
-    if(intersectMonster())
+    if(intersectMonster()){
+        hurtSound.setBuffer(hurtMusic);
+        hurtSound.play();
         player->loseHP();
+        player->losePoints(10);
+    }
 
     if(intersectHeart()){
-        heart->setPosition(150 + rand()%1500, 150 + rand()%600);
+        heart->setPosition(-100, -100);
         player->gainHP();
     }
 
-
-
-    //DEAD
+//DEAD
 
     if(player->isDead())
     {
@@ -189,6 +194,9 @@ void GameState::updateKeyBinds(const float &deltaTime)
         text.setOutlineColor(sf::Color::Red);
         text.setOutlineThickness(12);
         text.setString("Game Over!!!");
+
+        hurtSound.setBuffer(hurtMusic);
+        hurtSound.play();
     }
 
     if(intersectFire()){
@@ -203,11 +211,11 @@ void GameState::updateKeyBinds(const float &deltaTime)
         text.setString("You have burned...");
     }
 
-    //WIN
+//WIN
 
-    if(count == 10)
+    if(count == 12)
     {
-        text.setPosition(700, 450);
+        text.setPosition(650, 450);
         text.setFont(font);
         text.setCharacterSize(100);
         text.setFillColor(sf::Color::Black);
@@ -215,6 +223,8 @@ void GameState::updateKeyBinds(const float &deltaTime)
         text.setOutlineThickness(12);
         text.setString("YOU WON!!!");
     }
+
+//GET TIME
 
     if(getTime()){
         random1 = rand()%4;
@@ -240,28 +250,33 @@ void GameState::updateKeyBinds(const float &deltaTime)
             random_direction = random3;
 
     switch (random_direction) {
-        case 0: monsters[i]->anime(5, 0.f);
+        case 0: monsters[i]->anime(0.5f, 0.f);
             break;
-        case 1: monsters[i]->anime(-5.f, 0.f);
+        case 1: monsters[i]->anime(-0.5f, 0.f);
             break;
-        case 2: monsters[i]->anime(0.f, 5.f);
+        case 2: monsters[i]->anime(0.f, 0.5f);
             break;
-        case 3: monsters[i]->anime(0.f, -5.f);
+        case 3: monsters[i]->anime(0.f, -0.5f);
+            break;
+        default: random_direction--;
             break;
         }
     }
 
-    //ATTACK
+//ATTACK
 
     if(player->isAttacking())
     for(auto &monster : monsters){
         if(player->hitbox->checkIntersect(monster->GlobalBounds())){
             monster->setPosition(150 + rand()%1500, 150 + rand()%600);
             monster->loseHP();
+            player->gainPoints(5);
         }
 
     }
 }
+
+//UPDATE
 
 void GameState::update(const float &deltaTime)
 {
@@ -281,6 +296,8 @@ void GameState::update(const float &deltaTime)
         fire->update(deltaTime);
 }
 
+//RENDER
+
 void GameState::render(sf::RenderTarget *target)
 {
     if(!target)
@@ -288,13 +305,15 @@ void GameState::render(sf::RenderTarget *target)
 
     map->render(*target);
 
-    player->renderHPBar(*target);
+    player->renderText(*target);
 
     for(auto &fire : fires)
         fire->render(*target);
 
-    if(getHeart == true || timeToHeart > 2)
+    if(getHeart == true || timeToHeart > 4){
+        heart->setPosition(-100, -100);
         blank->render(*target);
+    }
     else
         heart->render(*target);
 

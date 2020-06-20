@@ -15,8 +15,14 @@ void Player::initHPBar()
     hpBarText.setFont(font);
     hpBarText.setCharacterSize(25);
     hpBarText.setFillColor(sf::Color::White);
-    hpBarText.setPosition(120, 30);
+    hpBarText.setPosition(120, 25);
     hpBarText.setOutlineThickness(1);
+
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(35);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(900, 30);
+    scoreText.setOutlineThickness(2);
 }
 
 Player::Player(float x, float y, sf::Texture& texture)
@@ -25,6 +31,8 @@ Player::Player(float x, float y, sf::Texture& texture)
     GlobalBounds();
 
     hp = hpMax/2;
+
+    points = 0;
 
     attacking = false;
 
@@ -43,8 +51,11 @@ Player::Player(float x, float y, sf::Texture& texture)
     animation->addAnimation("attackRight", 3.f, 0, 6, 14, 6, 300, 300);
     animation->addAnimation("attackLeft", 3.f, 0, 7, 14, 7, 300, 300);
     animation->addAnimation("attackUp", 1.f, 0, 8, 14, 8, 300, 300);
+    animation->addAnimation("dead", 3.f, 0, 0, 29, 0, 300, 300);
 
     font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
+
+    music.loadFromFile("sounds/sword.wav");
 }
 
 Player::~Player()
@@ -74,7 +85,7 @@ bool Player::isAttacking()
     return false;
 }
 
-void Player::updateHPBar()
+void Player::updateText()
 {
     float percent = static_cast<float>(std::floor(hp))/static_cast<float>(std::floor(hpMax));
 
@@ -82,12 +93,18 @@ void Player::updateHPBar()
 
     hpBarString = std::to_string(hp) + " / " + std::to_string(hpMax);
     hpBarText.setString(hpBarString);
+
+    scoreString = "Score: " + std::to_string(points);
+    scoreText.setString(scoreString);
 }
 
 void Player::updateAttack()
 {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
         attacking = true;
+        sound.setBuffer(music);
+        sound.play();
+    }
 }
 
 void Player::updateAnimation(const float &deltaTime)
@@ -124,14 +141,16 @@ void Player::update(const float &deltaTime)
     updateAttack();
     updateAnimation(deltaTime);
 
-    updateHPBar();
+    updateText();
 
     hitbox->update();
 }
 
-void Player::renderHPBar(sf::RenderTarget &target)
+void Player::renderText(sf::RenderTarget &target)
 {
     target.draw(hpBarBack);
     target.draw(hpBarFront);
     target.draw(hpBarText);
+
+    target.draw(scoreText);
 }

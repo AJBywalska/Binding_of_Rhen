@@ -31,18 +31,28 @@ void Entity::createHitbox(sf::Sprite &sprite, float x, float y, float width, flo
 
 void Entity::loseHP()
 {
-    this->hp--;
+    hp--;
 
-    if (this->hp < 0)
-        this->hp = 0;
+    if (hp < 0)
+        hp = 0;
 }
 
 void Entity::gainHP()
 {
-    this->hp++;
+    hp++;
 
-    if (this->hp > this->hpMax)
-        this->hp = this->hpMax;
+    if (hp > hpMax)
+        hp = hpMax;
+}
+
+void Entity::losePoints(int point)
+{
+    points -= point;
+}
+
+void Entity::gainPoints(int point)
+{
+    points += point;
 }
 
 bool Entity::isDead() const

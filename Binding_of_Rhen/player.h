@@ -13,10 +13,16 @@ private:
     sf::Text hpBarText;
     std::string hpBarString;
 
+    sf::Text scoreText;
+    std::string scoreString;
+
     sf::RectangleShape hpBarBack;
     sf::RectangleShape hpBarFront;
     float hpBarMaxWidth;
     float hpBarMaxHeight;
+
+    sf::SoundBuffer music;
+    sf::Sound sound;
 
     void initHPBar();
 
@@ -28,12 +34,12 @@ public:
     sf::FloatRect GlobalBounds();
     bool isAttacking();
 
-    void updateHPBar();
+    void updateText();
     void updateAttack();
     void updateAnimation(const float& deltaTime);
     virtual void update(const float& deltaTime);
 
-    void renderHPBar(sf::RenderTarget& target);
+    void renderText(sf::RenderTarget& target);
 };
 
 #endif // PLAYER_H

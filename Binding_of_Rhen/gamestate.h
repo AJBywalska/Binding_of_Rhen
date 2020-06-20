@@ -30,6 +30,9 @@ private:
     Blank* blank;
     std::vector<Fire*> fires;
 
+    sf::SoundBuffer hurtMusic;
+    sf::Sound hurtSound;
+
     void initTextures();
     void initPlayers();
     void initTime();

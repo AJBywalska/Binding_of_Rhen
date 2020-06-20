@@ -18,6 +18,7 @@ protected:
 public:
     Hitbox* hitbox;
     int hp;
+    int points;
 
     Entity();
     virtual ~Entity();
@@ -28,6 +29,9 @@ public:
 
     void loseHP();
     void gainHP();
+
+    void losePoints(int point);
+    void gainPoints(int point);
 
     bool isDead() const;
 
