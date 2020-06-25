@@ -14,9 +14,9 @@ Entity::~Entity()
     delete hitbox;
 }
 
-void Entity::createMovment(const float maxVelocity/*, const float acceleration, const float deceleration*/)
+void Entity::createMovment(const float maxVelocity)
 {
-    movment = new Movement(sprite, maxVelocity/*, acceleration, deceleration*/);
+    movment = new Movement(sprite, maxVelocity);
 }
 
 void Entity::createAnimation(sf::Texture &texture)

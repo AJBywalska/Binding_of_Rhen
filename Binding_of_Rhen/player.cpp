@@ -55,7 +55,7 @@ Player::Player(float x, float y, sf::Texture& texture)
 
     font.loadFromFile("Fonts/Raleway-ExtraLightItalic.ttf");
 
-    music.loadFromFile("sounds/sword.wav");
+//    music.loadFromFile("sounds/sword.wav");
 }
 
 Player::~Player()

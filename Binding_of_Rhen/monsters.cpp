@@ -36,16 +36,6 @@ sf::FloatRect Monsters::GlobalBounds()
     return rect;
 }
 
-sf::FloatRect Monsters::getHitbox()
-{
-    box.top = 60.f;
-    box.left = 60.f;
-    box.width = 115.f;
-    box.height = 150.f;
-
-    return box;
-}
-
 void Monsters::anime(const float& x, const float& y)
 {
     sprite.move(x, y);

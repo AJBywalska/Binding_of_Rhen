@@ -33,7 +33,7 @@ MainMenu::~MainMenu()
     }
 }
 
-void MainMenu::updateKeyBinds(const float &deltaTime)
+void MainMenu::updateGame(const float &deltaTime)
 {
 
 }
@@ -56,7 +56,7 @@ void MainMenu::updateButtons()
 void MainMenu::update(const float &deltaTime)
 {
     updateMousePos();
-    updateKeyBinds(deltaTime);
+    updateGame(deltaTime);
 
     updateButtons();
 }

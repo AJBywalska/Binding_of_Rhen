@@ -1,6 +1,5 @@
 #include "animation.h"
 
-
 Animation::Animation(sf::Sprite &sprite, sf::Texture &textureSheet)
         : sprite(sprite), textureSheet(textureSheet), lastAnimation(NULL), priorityAnimation(NULL)
 {

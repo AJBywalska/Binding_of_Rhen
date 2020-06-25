@@ -13,6 +13,8 @@ CONFIG(debug, debug|release){
 SOURCES += \
         animation.cpp \
         blank.cpp \
+        boss.cpp \
+        bossshoot.cpp \
         button.cpp \
         entity.cpp \
         fire.cpp \
@@ -26,11 +28,14 @@ SOURCES += \
         monsters.cpp \
         movement.cpp \
         player.cpp \
+        shoot.cpp \
         state.cpp
 
 HEADERS += \
     animation.h \
     blank.h \
+    boss.h \
+    bossshoot.h \
     button.h \
     entity.h \
     fire.h \
@@ -43,4 +48,5 @@ HEADERS += \
     monsters.h \
     movement.h \
     player.h \
+    shoot.h \
     state.h

@@ -1,5 +1,7 @@
 release/animation.o
 release/blank.o
+release/boss.o
+release/bossshoot.o
 release/button.o
 release/entity.o
 release/fire.o
@@ -13,4 +15,5 @@ release/map.o
 release/monsters.o
 release/movement.o
 release/player.o
+release/shoot.o
 release/state.o

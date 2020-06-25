@@ -21,7 +21,7 @@ public:
     MainMenu(sf::RenderWindow *window_, std::stack<State*>* states);
     virtual ~MainMenu();
 
-    void updateKeyBinds(const float& deltaTime);
+    void updateGame(const float& deltaTime);
     void updateButtons();
     void update(const float& deltaTime);
     void renderButtons(sf::RenderTarget& target);

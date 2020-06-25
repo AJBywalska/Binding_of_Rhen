@@ -3,10 +3,13 @@
 
 #include "player.h"
 #include "monsters.h"
+#include "boss.h"
 #include "map.h"
 #include "blank.h"
 #include "heart.h"
 #include "fire.h"
+#include "shoot.h"
+#include "bossshoot.h"
 
 class State
 {
@@ -26,7 +29,7 @@ public:
     virtual void endState();
 
     virtual void updateMousePos();
-    virtual void updateKeyBinds(const float& deltaTime) = 0;
+    virtual void updateGame(const float& deltaTime) = 0;
     virtual void update(const float& deltaTime) = 0;
     virtual void render(sf::RenderTarget* target = nullptr) = 0;
 };

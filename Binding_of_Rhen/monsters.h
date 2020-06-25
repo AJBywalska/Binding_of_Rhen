@@ -15,7 +15,6 @@ public:
 
     const sf::Vector2f &getPosition() const;
     sf::FloatRect GlobalBounds();
-    sf::FloatRect getHitbox();
 
     void anime(const float& x, const float& y);
     void updateAnimation(const float& deltaTime);

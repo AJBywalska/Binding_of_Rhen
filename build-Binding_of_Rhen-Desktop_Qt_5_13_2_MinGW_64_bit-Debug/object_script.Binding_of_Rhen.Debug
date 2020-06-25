@@ -1,5 +1,7 @@
 debug/animation.o
 debug/blank.o
+debug/boss.o
+debug/bossshoot.o
 debug/button.o
 debug/entity.o
 debug/fire.o
@@ -13,4 +15,5 @@ debug/map.o
 debug/monsters.o
 debug/movement.o
 debug/player.o
+debug/shoot.o
 debug/state.o
